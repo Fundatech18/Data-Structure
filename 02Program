@@ -1,0 +1,95 @@
+// Write Menu driven program to implement operations of stack 1) Push 2) pop 3)
+// peep 4) modify  5) display
+
+#include <stdio.h>
+#define MAX 5
+
+void push(int stack[], int *top, int element) {
+  if (*top == MAX - 1) {
+    printf("Stack Overflow");
+  } else {
+
+    *top += 1;
+    stack[*top] = element;
+  }
+}
+
+
+
+void pop(int stack[], int *top) {
+  if (*top == -1) {
+    printf("Stack is Underflow");
+  } else {
+    printf("Deleted Element is %d", stack[*top]);
+    *top -= 1;
+  }
+}
+
+
+void peep(int stack[],int *top,int index){
+  if(index > *top){
+    printf("Out of Bounce");
+  }else{
+    printf("Element at index %d is %d",index,stack[index]);
+  }
+}
+
+void modify(int stack[],int *top,int position,int newElement){
+  if(position > *top || position < 0){
+    printf("Out of Bounce");
+  }else{
+    stack[position] = newElement;
+    printf("%d element is modified at %d position" ,newElement,position);
+  }
+}
+
+void display(int stack[], int *top) {
+  int i;
+  if (*top == -1) {
+    printf("Stack is underflow");
+  } else {
+    for (i = 0; i <= *top; i++) {
+      printf("%d  ", stack[i]);
+    }
+  }
+}
+
+void main() {
+  int x = -1, *top = &x;
+  int stack[5], choice, element, position,newElement;
+
+  while (1) {
+    printf("\n1.Push\n2.Pop\n3.Peep \n4.Modify \n5.Display \n6.Exit\n");
+    printf("Enter the Choice : ");
+    scanf("%d", &choice);
+    switch (choice) {
+    case 1:
+      printf("Enter the Element : ");
+      scanf("%d", &element);
+      push(stack, top, element);
+      break;
+
+    case 2:
+      pop(stack, top);
+      break;
+
+    case 3:
+      printf("Enter the index : ");
+      scanf("%d", &position);
+      peep(stack, top, position);
+      break;
+
+    case 4:
+      printf("Enter index to modify :");
+      scanf("%d",&position);
+      printf("Enter New Element : ");
+      scanf("%d",&newElement);
+      modify(stack,top,position,newElement);
+      break;
+
+    case 5:
+      display(stack, top);
+      break;
+    }
+  }
+}
