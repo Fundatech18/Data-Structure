@@ -1,5 +1,4 @@
-// Write Menu driven program to implement operations of stack 1) Push 2) pop 3)
-// peep 4) modify  5) display
+// Write Menu driven program to implement operations of stack 1) Push 2) pop 3) peep 4) modify  5) display
 
 #include <stdio.h>
 #define MAX 5
@@ -26,21 +25,27 @@ void pop(int stack[], int *top) {
 }
 
 
-void peep(int stack[],int *top,int index){
-  if(index > *top){
-    printf("Out of Bounce");
+void peep(int stack[],int *top){
+  if(*top == -1){
+      printf("Stack is empty.");
   }else{
-    printf("Element at index %d is %d",index,stack[index]);
+      printf("Top element is %d \n",stack[*top]);
   }
 }
 
 void modify(int stack[],int *top,int position,int newElement){
+    if(*top == -1){
+        printf("Stack is empty. No element is available to modify.");
+    }else{
+        
+   
   if(position > *top || position < 0){
     printf("Out of Bounce");
   }else{
     stack[position] = newElement;
-    printf("%d element is modified at %d position" ,newElement,position);
+    printf("Element at position %d modified to %d.\n" ,position,newElement);
   }
+    }
 }
 
 void display(int stack[], int *top) {
@@ -74,9 +79,7 @@ void main() {
       break;
 
     case 3:
-      printf("Enter the index : ");
-      scanf("%d", &position);
-      peep(stack, top, position);
+      peep(stack, top);
       break;
 
     case 4:
