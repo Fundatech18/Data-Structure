@@ -1,5 +1,4 @@
-// Write menu driven program to implement operations on array.   1)Add  2)
-// Delete 3) Modify 4) sort 5) simple search 6) binary search
+// Write menu driven program to implement operations on array.   1)Add  2) Delete 3) Modify 4) sort 5) simple search 6) binary search
 
 #include <stdio.h>
 
@@ -16,23 +15,30 @@ int addElementToArray(int arr[], int element, int position) {
 }
 
 //Delete Element
-void deleteElementFromArray(int arr[], int position,int element){
-  int i,temp=0;
+int deleteElementFromArray(int arr[], int position,int element){
+  int i,temp=0,found=0,j;
   if(position == -1){
     printf("Array is Empty");
   }else{
-    for(i=0;i<=position;i++){
-      if(arr[i]==element){
-        printf("%d Element is deleted from %d position",arr[i],i);
-        arr[i] = 0;
-        temp = 1;
-        break;
+      
+      for(i=0;i<=position;i++){
+          if(arr[i] == element){
+              found=1;
+              break;
+          }
       }
-    }
-    if(temp == 0){
-      printf("Element not found. Give a valid Element.");
-    }
+      
+      if(found){
+          for(j=i;j<=position-1;j++){
+              arr[j]=arr[j+1];
+          }
+          printf("Element Deleted\n");
+          position--;
+      }else{
+          printf("Element not found. Give a valid Element.");
+      }
   }
+  return position;
 }
 
 //Modify Element
@@ -146,7 +152,7 @@ void main() {
     case 2:
       printf("Enter the element to delete : ");
       scanf("%d",&element);
-      deleteElementFromArray(arr, position, element);
+      position = deleteElementFromArray(arr, position, element);
       break;
 
     case 3:
