@@ -1,3 +1,6 @@
+// Write menu driven program to Implement simple queue 1) insert 2) delete 3) modify 4) display
+
+
 #include <stdio.h>
 #define MAX 5
 
@@ -27,10 +30,16 @@ void delete (int queue[], int *front, int *rear) {
 }
 
 void modify(int queue[], int *front, int *rear, int index, int element) {
+    if (*front == -1) {
+    printf("Queue is Empty");
+  }else{
+      
+
   if (index <= *rear && index >= *front) {
     queue[index] = element;
   } else {
     printf("Enter Valid Index");
+  }
   }
 }
 
