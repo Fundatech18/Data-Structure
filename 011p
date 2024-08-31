@@ -1,0 +1,132 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define MAX 5
+
+int isFull(int *rear,int *front){
+  if((*rear == MAX-1 && *front == -1) || *front == *rear+1){
+    return 1;
+  }
+  return 0;
+}
+
+int isEmpty(int *rear,int *front){
+  if(*front == -1 && *rear == -1){
+    return 1;
+  }
+  return 0;
+}
+
+void insert(int queue[],int *rear,int *front,char ch[]){
+  int element,index;
+  if(isFull(rear,front)){
+    printf("Queue is Full");
+  }else{
+    printf("Enter Element : ");
+    scanf("%d",&element);
+    if((strcmp(ch, "LeftInsert")) == 0){
+      if(*rear == -1){
+        *rear = 0;
+        *front = 0;
+        index = *rear;
+      }else{
+        *rear+=1;
+        index = *rear;
+      }
+    }else{
+      if(*front == 0){
+        *front = MAX-1;
+        index = *front;
+      }else{
+        *front -= 1;
+        index = *front;
+      }
+    }
+    queue[index] = element;
+    printf("%d element is inserted at %d position\n",element,index);
+  }
+}
+
+void delete(int queue[],int *rear,int *front,char ch[]){
+  int index;
+  if(isEmpty(rear,front)){
+    printf("Queue is Empty");
+  }else{
+    if((strcmp(ch,"LeftDelete")) == 0){
+      index = *rear;
+      queue[index] = 0;
+      *rear -= 1;
+    }else{
+      index = *front;
+      queue[index] 
+    }
+  }
+}
+
+void display(int queue[],int *rear,int *front){
+  int i;
+  if(isEmpty(rear,front)){
+    printf("Queue is Empty");
+  }else{
+    if(*front <= *rear){
+      if(*front == -1){
+        *front =0;
+      }
+      for( i = *front;i <= *rear;i++){
+        printf("%d  ",queue[i]);
+      }
+    }else{
+      printf("\nRear Value : ");
+      for( i = 0;i <= *rear;i++){
+        printf("%d  ",queue[i]);
+      }
+
+      printf("\nFront value : ");
+      for( i = *front;i < MAX;i++){
+        printf("%d  ",queue[i]);
+
+      }
+    }
+  }
+}
+
+void main(){
+  int queue[MAX],f=-1,r=-1;
+  int *rear = &r,*front = &f;
+  int choice;
+
+  while(1){
+    printf("\n1.Left Insert\n2.Right Insert\n3.Left Delete\n4.Right Delete\n5.Display");
+    printf("\nEnter Your choice : ");
+    scanf("%d",&choice);
+
+    switch(choice){
+      case 1:
+      insert(queue,rear,front,"LeftInsert");
+        display(queue,rear,front);
+      break;
+
+      case 2:
+      insert(queue,rear,front,"RightInsert");
+        display(queue,rear,front);
+      break;
+      case 3:
+      delete(queue,rear,front,"LeftDelete");
+        display(queue,rear,front);
+      break;
+
+      case 4:
+      delete(queue,rear,front,"RightDelete");
+        display(queue,rear,front);
+      break;
+
+      case 5:
+      display(queue,rear,front);
+      break;
+
+      default:
+      printf("Enter valid value");
+      break;
+    }
+  }
+}
