@@ -1,0 +1,105 @@
+// Write menu driven program to implement operations of singly linked // list of
+// integer 1) insert 2)delete 3) modify 4) display
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+  int data;
+  struct node *next;
+};
+
+void insert(struct node **head, int element) {
+  struct node *newNode;
+  newNode = (struct node *)malloc(sizeof(struct node));
+  newNode->data = element;
+  if (*head == NULL) {
+    newNode->next = NULL;
+    *head = newNode;
+  } else {
+    newNode->next = *head;
+    *head = newNode;
+  }
+}
+
+void delete (struct node **head) {
+  struct node *temp;
+  if (*head == NULL) {
+    printf("List is empty\n");
+  } else {
+    temp = *head;
+    *head = temp->next;
+    free(temp);
+  }
+}
+
+void modify(struct node *head, int oldData, int newData) {
+  struct node *temp = head;
+  struct node *prev;
+
+  if (temp == NULL) {
+    printf("List is empty\n");
+  } else {
+    if (1) {
+      while (temp != NULL && temp->data != oldData) {
+        prev = temp;
+        temp = temp->next;
+      }
+      if(temp != NULL){ 
+        temp->data = newData;
+      }else{
+        printf("Element not found\n");
+      }
+    }
+  }
+}
+
+void display(struct node *head) {
+
+  if (head == NULL) {
+    printf("List is empty\n");
+  } else {
+    while (head != NULL) {
+      printf("%d --> ", head->data);
+      head = head->next;
+    }
+    printf("\n");
+  }
+}
+void main() {
+  struct node *head = NULL;
+  int element, choice, oldData, newData;
+
+  while (1) {
+    printf("\n1 For Insert \n");
+    printf("2 For Delete \n");
+    printf("3 For Modify \n");
+    printf("4 For Display \n");
+    printf("Enter Your Choice : ");
+    scanf("%d", &choice);
+
+    switch (choice) {
+    case 1:
+      printf("Enter the element :");
+      scanf("%d", &element);
+      insert(&head, element);
+      break;
+
+    case 2:
+      delete (&head);
+      break;
+
+    case 3:
+      printf("Enter old data to modify: ");
+      scanf("%d", &oldData);
+      printf("Enter new data: ");
+      scanf("%d", &newData);
+      modify(head, oldData, newData);
+      break;
+
+    case 4:
+      display(head);
+      break;
+    }
+  }
+}
