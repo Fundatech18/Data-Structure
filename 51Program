@@ -1,0 +1,135 @@
+// Sorted singly link list
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+  int data;
+  struct node *next;
+};
+
+void insert(struct node **head, int element) {
+  struct node *temp, *newNode = (struct node *)malloc(sizeof(struct node));
+  newNode->data = element;
+
+  if (*head == NULL) {
+    newNode->next = NULL;
+    *head = newNode;
+  } else {
+    if (element < (*head)->data) {
+      newNode->next = *head;
+      *head = newNode;
+    } else {
+
+      temp = *head;
+      while (temp->next != NULL && temp->next->data < element) {
+        temp = temp->next;
+      }
+      if (temp->next == NULL) {
+        temp->next = newNode;
+        newNode->next = NULL;
+      } else {
+        newNode->next = temp->next;
+        temp->next = newNode;
+      }
+    }
+  }
+}
+
+void delete (struct node **head, int element) {
+  struct node *temp, *prev = NULL;
+  if (*head == NULL) {
+    printf("List is empty");
+  } else {
+    temp = *head;
+    while (temp->data != element && temp->next != NULL) {
+      prev = temp;
+      temp = temp->next;
+    }
+
+    if (temp->data == element) {
+      if (prev == NULL) {
+        *head = temp->next;
+        free(temp);
+      } else if (temp->next == NULL) {
+        prev->next = NULL;
+        free(temp);
+      } else {
+        prev->next = temp->next;
+        free(temp);
+      }
+    }else{
+      printf("No element is found\n");
+    }
+  }
+}
+
+void modify(struct node *head,int oldData,int newData){
+  struct node *temp = head;
+  if(temp == NULL){
+    printf("List is empty\n");
+  }else{
+    while(temp->data != oldData && temp->next!= NULL){
+      temp = temp->next;
+    }
+    if(temp->data == oldData){
+      temp->data = newData;
+    }else{
+      printf("No element is found\n");
+    }
+  }
+}
+
+void display(struct node *head) {
+  struct node *temp = head;
+  if (head == NULL) {
+    printf("List is empty");
+  } else {
+    while (temp != NULL) {
+      printf("%d-->", temp->data);
+      temp = temp->next;
+    }
+  }
+}
+
+void main() {
+  struct node *head = NULL;
+  int choice;
+  int element, oldData, newData;
+
+  while (1) {
+    printf("\n1.Insert \n");
+    printf("2.Delete \n");
+    printf("3.Modify \n");
+    printf("4.Display \n");
+    printf("5.Exit \n");
+    printf("Enter Choice : ");
+    scanf("%d", &choice);
+
+    switch (choice) {
+    case 1:
+      printf("Enter element : ");
+      scanf("%d", &element);
+      insert(&head, element);
+      break;
+
+    case 2:
+      printf("Enter element : ");
+      scanf("%d", &element);
+      delete (&head, element);
+      break;
+
+    case 3:
+      printf("Enter old element : ");
+      scanf("%d",&oldData);
+      printf("Enter new element : ");
+      scanf("%d",&newData);
+      modify(head,oldData,newData);
+      break;
+      
+    case 4:
+      display(head);
+      break;
+    }
+  }
+}
