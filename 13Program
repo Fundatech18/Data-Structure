@@ -4,22 +4,24 @@
 
 struct node {
   struct node *prev;
-  int data;
+  int id;
+  char name[100];
   struct node *next;
 };
 
-void insert(struct node **head, int element) {
+void insert(struct node **head, int id, char *name) {
   struct node *newNode, *prev = NULL, *curr = *head;
   newNode = (struct node *)malloc(sizeof(struct node));
-  newNode->data = element;
-  
-  if(*head == NULL){
+  newNode->id = id;
+  strcpy(newNode->name, name);
+
+  if (*head == NULL) {
     newNode->prev = newNode;
     newNode->next = newNode;
     *head = newNode;
-  }else{
-    if(element < (*head)->data){
-      while(curr->next != *head){
+  } else {
+    if (id < (*head)->id) {
+      while (curr->next != *head) {
         curr = curr->next;
       }
       curr->next = newNode;
@@ -27,17 +29,17 @@ void insert(struct node **head, int element) {
       newNode->next = *head;
       (*head)->prev = newNode;
       *head = newNode;
-    }else{
-      while(curr->next != *head && element > curr->data){
+    } else {
+      while (curr->next != *head && id > curr->id) {
         prev = curr;
         curr = curr->next;
       }
-      if(curr->next == *head && element > curr->data){
+      if (curr->next == *head && id > curr->id) {
         newNode->prev = curr;
         newNode->next = curr->next;
         curr->next->prev = newNode;
-        curr->next = newNode; 
-      }else{
+        curr->next = newNode;
+      } else {
         newNode->prev = prev;
         newNode->next = curr;
         prev->next = newNode;
@@ -47,47 +49,55 @@ void insert(struct node **head, int element) {
   }
 }
 
-void delete(struct node **head,int element){
-  struct node *curr = *head,*prev = NULL;
-  if(*head == NULL){
+void delete (struct node **head, int id) {
+  struct node *curr = *head, *prev = NULL;
+  if (*head == NULL) {
     printf("List is empty\n");
-  }else{
-    if(element == (*head)->data){
+  } else {
+    if (id == (*head)->id) {
       curr->prev->next = curr->next;
       curr->next->prev = curr->prev;
-      *head = curr->next;
-      free(curr);
-    }else{
-      while(curr->next != *head && curr->data != element){
-        prev = curr;
-        curr = curr->next;
+      if (curr->next == *head) {
+        *head = NULL;
+      } else {
+        *head = curr->next;
       }
-      if(curr->data == element){
-        prev->next = curr->next;
-        curr->next->prev = prev;
-      }else{
-        printf("No element found\n");
+      free(curr);
+    } else {
+       {
+
+        while (curr->next != *head && curr->id != id) {
+          prev = curr;
+          curr = curr->next;
+        }
+
+        if (curr->id == id) {
+          prev->next = curr->next;
+          curr->next->prev = prev;
+        } else {
+          printf("No element found\n");
+        }
       }
     }
   }
 }
 
-void modify(struct node *head,int oldData,int newData){
+void modify(struct node *head, int id, char *name) {
   struct node *temp = head;
-  int flag=0;
-  if(head == NULL){
+  int flag = 0;
+  if (head == NULL) {
     printf("List is empty\n");
-  }else{
-    do{
-      if(temp->data == oldData){
-        temp->data = newData;
+  } else {
+    do {
+      if (temp->id == id) {
+        stpcpy(temp->name, name);
         flag = 1;
         break;
       }
       temp = temp->next;
-    }while(temp != head);
+    } while (temp != head);
 
-    if(flag == 0){
+    if (flag == 0) {
       printf("No element found\n");
     }
   }
@@ -98,17 +108,19 @@ void display(struct node *head) {
   if (head == NULL) {
     printf("List is empty\n");
   } else {
-   do{
-      printf("%d --> ", curr->data);
+    do {
+      printf("(%d - ", curr->id);
+      printf("%s) --> ", curr->name);
       curr = curr->next;
-    }while (curr != head);
+    } while (curr != head);
   }
 }
 
 void main() {
   struct node *head = NULL;
   int element, newData, oldData, choice;
-
+  int id;
+  char name[100];
 
   while (1) {
     printf("\n1. Insert");
@@ -120,25 +132,27 @@ void main() {
     scanf("%d", &choice);
     switch (choice) {
     case 1:
-      printf("Enter element to insert : ");
-      scanf("%d", &element);
-      insert(&head, element);
+      printf("Enter id : ");
+      scanf("%d", &id);
+      printf("Enter name : ");
+      scanf("%s", name);
+      insert(&head, id, name);
       break;
 
     case 2:
-      printf("Enter element to delete : ");
-      scanf("%d", &element);
-      delete(&head, element);
+      printf("Enter id to delete : ");
+      scanf("%d", &id);
+      delete (&head, id);
       break;
 
     case 3:
-      printf("Enter element to modify : ");
-      scanf("%d",&element);
-      printf("Enter new data : ");
-      scanf("%d",&newData);
-      modify(head,element,newData);
+      printf("Enter id to modify : ");
+      scanf("%d", &id);
+      printf("Enter new name : ");
+      scanf("%s", name);
+      modify(head, id, name);
       break;
-      
+
     case 4:
       display(head);
       break;
