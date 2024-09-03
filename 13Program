@@ -1,0 +1,105 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+  struct node *prev;
+  int data;
+  struct node *next;
+};
+
+void insert(struct node **head, int element) {
+  struct node *newNode, *prev = NULL, *curr = *head;
+  newNode = (struct node *)malloc(sizeof(struct node));
+  newNode->data = element;
+  
+  if(*head == NULL){
+    newNode->prev = newNode;
+    newNode->next = newNode;
+    *head = newNode;
+  }else{
+    if(element < (*head)->data){
+      while(curr->next != *head){
+        curr = curr->next;
+      }
+      curr->next = newNode;
+      newNode->prev = curr;
+      newNode->next = *head;
+      (*head)->prev = newNode;
+      *head = newNode;
+    }else{
+      while(curr->next != *head && element > curr->data){
+        prev = curr;
+        curr = curr->next;
+      }
+      if(curr->next == *head && element > curr->data){
+        newNode->prev = curr;
+        newNode->next = curr->next;
+        curr->next->prev = newNode;
+        curr->next = newNode; 
+      }else{
+        newNode->prev = prev;
+        newNode->next = curr;
+        prev->next = newNode;
+        curr->prev = newNode;
+      }
+    }
+  }
+}
+
+void delete(struct node **head,int element){
+  struct node *curr = *head,*prev = NULL;
+  if(*head == NULL){
+    printf("List is empty\n");
+  }else{
+    if(element == (*head)->data){
+      while(curr->next != *head){
+        curr = curr->next;
+      }
+      curr->next = (*head)->next;
+    }
+  }
+}
+
+void display(struct node *head) {
+  struct node *curr = head;
+  if (head == NULL) {
+    printf("List is empty\n");
+  } else {
+   do{
+      printf("%d --> ", curr->data);
+      curr = curr->next;
+    }while (curr != head);
+  }
+}
+
+void main() {
+  struct node *head = NULL;
+  int element, newData, oldData, choice;
+
+  while (1) {
+    printf("\n1. Insert");
+    printf("\n2. Delete");
+    printf("\n3. Modify");
+    printf("\n4. Display");
+    printf("\n5. Exit");
+    printf("\nEnter Choice : ");
+    scanf("%d", &choice);
+    switch (choice) {
+    case 1:
+      printf("Enter element to insert : ");
+      scanf("%d", &element);
+      insert(&head, element);
+      break;
+
+    case 2:
+      printf("Enter element to delete : ");
+      scanf("%d", &element);
+      delete(&head, element);
+      break;
+
+    case 4:
+      display(head);
+      break;
+    }
+  }
+}
