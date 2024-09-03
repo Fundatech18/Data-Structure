@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 struct node {
   struct node *prev;
@@ -52,10 +53,21 @@ void delete(struct node **head,int element){
     printf("List is empty\n");
   }else{
     if(element == (*head)->data){
-      while(curr->next != *head){
+      curr->prev->next = curr->next;
+      curr->next->prev = curr->prev;
+      *head = curr->next;
+      free(curr);
+    }else{
+      while(curr->next != *head && curr->data != element){
+        prev = curr;
         curr = curr->next;
       }
-      curr->next = (*head)->next;
+      if(curr->data == element){
+        prev->next = curr->next;
+        curr->next->prev = prev;
+      }else{
+        printf("No element found\n");
+      }
     }
   }
 }
