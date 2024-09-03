@@ -72,6 +72,27 @@ void delete(struct node **head,int element){
   }
 }
 
+void modify(struct node *head,int oldData,int newData){
+  struct node *temp = head;
+  int flag=0;
+  if(head == NULL){
+    printf("List is empty\n");
+  }else{
+    do{
+      if(temp->data == oldData){
+        temp->data = newData;
+        flag = 1;
+        break;
+      }
+      temp = temp->next;
+    }while(temp != head);
+
+    if(flag == 0){
+      printf("No element found\n");
+    }
+  }
+}
+
 void display(struct node *head) {
   struct node *curr = head;
   if (head == NULL) {
@@ -87,6 +108,7 @@ void display(struct node *head) {
 void main() {
   struct node *head = NULL;
   int element, newData, oldData, choice;
+
 
   while (1) {
     printf("\n1. Insert");
@@ -109,6 +131,14 @@ void main() {
       delete(&head, element);
       break;
 
+    case 3:
+      printf("Enter element to modify : ");
+      scanf("%d",&element);
+      printf("Enter new data : ");
+      scanf("%d",&newData);
+      modify(head,element,newData);
+      break;
+      
     case 4:
       display(head);
       break;
