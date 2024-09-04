@@ -1,0 +1,98 @@
+// Write Menu driven program to implement operations of stack 1) Push 2) pop 3) peep 4) modify  5) display
+
+#include <stdio.h>
+#define MAX 5
+
+void push(int stack[], int *top, int element) {
+  if (*top == MAX - 1) {
+    printf("Stack Overflow");
+  } else {
+
+    *top += 1;
+    stack[*top] = element;
+  }
+}
+
+
+
+void pop(int stack[], int *top) {
+  if (*top == -1) {
+    printf("Stack is Underflow");
+  } else {
+    printf("Deleted Element is %d", stack[*top]);
+    *top -= 1;
+  }
+}
+
+
+void peep(int stack[],int *top){
+  if(*top == -1){
+      printf("Stack is empty.");
+  }else{
+      printf("Top element is %d \n",stack[*top]);
+  }
+}
+
+void modify(int stack[],int *top,int position,int newElement){
+    if(*top == -1){
+        printf("Stack is empty. No element is available to modify.");
+    }else{
+        
+   
+  if(position > *top || position < 0){
+    printf("Enter valid Index");
+  }else{
+    stack[position] = newElement;
+    printf("Element at position %d modified to %d.\n" ,position,newElement);
+  }
+    }
+}
+
+void display(int stack[], int *top) {
+  int i;
+  if (*top == -1) {
+    printf("Stack is underflow");
+  } else {
+    for (i = 0; i <= *top; i++) {
+      printf("%d  ", stack[i]);
+    }
+  }
+}
+
+void main() {
+  int x = -1, *top = &x;
+  int stack[5], choice, element, position,newElement;
+
+  while (1) {
+    printf("\n1.Push\n2.Pop\n3.Peep \n4.Modify \n5.Display \n6.Exit\n");
+    printf("Enter the Choice : ");
+    scanf("%d", &choice);
+    switch (choice) {
+    case 1:
+      printf("Enter the Element : ");
+      scanf("%d", &element);
+      push(stack, top, element);
+      break;
+
+    case 2:
+      pop(stack, top);
+      break;
+
+    case 3:
+      peep(stack, top);
+      break;
+
+    case 4:
+      printf("Enter index to modify :");
+      scanf("%d",&position);
+      printf("Enter New Element : ");
+      scanf("%d",&newElement);
+      modify(stack,top,position,newElement);
+      break;
+
+    case 5:
+      display(stack, top);
+      break;
+    }
+  }
+}
