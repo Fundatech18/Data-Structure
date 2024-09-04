@@ -39,21 +39,20 @@ void insert(struct node **head, int element) {
 }
 
 void delete (struct node **head, int element) {
-  struct node *temp = *head, *curr;
+  struct node *temp = *head, *curr = *head;
   if (*head == NULL) {
     printf("List is empty\n");
   } else {
     if (temp->data == element) {
-      curr = *head;
-      printf("%d \n", (*head)->data);
       while (temp->next != *head) {
         temp = temp->next;
       }
-      *head = (*head)->next;
-      temp->next = *head;
+      temp->next = (*head)->next;
 
       if (*head == (*head)->next) {
         *head = NULL;
+      }else{
+           *head = (*head)->next;
       }
       free(curr);
     } else {
@@ -72,19 +71,18 @@ void delete (struct node **head, int element) {
   }
 }
 
-void modify(struct node *head, int oldData, int newData) {
-  struct node *temp = head;
-  if (head == NULL) {
+void modify(struct node **head, int oldData, int newData) {
+  struct node *temp = *head;
+  if (*head == NULL) {
     printf("List is empty\n");
   } else {
-    while (temp->next != head && temp->data != oldData){
+    while (temp->next != *head && temp->data != oldData){
       temp = temp->next;
     }
     
     if(temp->data == oldData){
-      // temp->data = newData;
-      insert( &head, newData);
-      delete(&head, oldData);
+      insert( &(*head), newData);
+      delete(&(*head), oldData);
     }else{
       printf("Element is not found\n");
     }
@@ -133,7 +131,7 @@ void main() {
       scanf("%d", &oldData);
       printf("Enter new data: ");
       scanf("%d", &newData);
-      modify(head, oldData, newData);
+      modify(&head, oldData, newData);
       break;
 
     case 4:
