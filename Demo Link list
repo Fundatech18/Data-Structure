@@ -1,0 +1,21 @@
+#include <stdio.h>
+#include <stdlib.h>
+    
+    struct node{
+        int data;
+    };
+    
+    void change(struct node **value){
+        struct node *newNode = (struct node *)malloc(sizeof(struct node));
+        printf("%d\n",newNode->data);
+        newNode->data = 20;
+        printf("%d\n",newNode->data);
+        *value = newNode;
+    }
+
+void main(){
+    struct node *value = NULL;
+    printf("This is  :  %d\n",value->data);
+    change(&value);
+    printf("This is  :  %d\n",value->data);
+}
