@@ -1,0 +1,105 @@
+// Online C compiler to run C program online
+#include <stdio.h>
+#include<stdlib.h>
+
+struct tree{
+    struct tree *lptr;
+    int data;
+    struct tree *rptr;
+};
+
+
+void insert(struct tree **root,int element){
+    struct tree *prev=NULL,*curr = *root,*newNode;
+    newNode = (struct tree *)malloc(sizeof(struct tree));
+    newNode->data = element;
+    newNode->lptr = NULL;
+    newNode->rptr = NULL;
+    
+    while(curr != NULL){
+        prev = curr;
+        if(curr->data > element){
+            curr = curr->lptr;
+        }else{
+            curr = curr->rptr;
+        }
+    }
+    
+    if(prev == NULL){
+        *root = newNode;
+    }else{
+        if(prev->data > element){
+            prev->lptr = newNode;
+        }else{
+            prev->rptr = newNode;
+        }
+    }
+}
+
+void inOrder(struct tree *root){
+    struct tree *curr = root;
+    if(curr != NULL){
+        inOrder(curr->lptr);
+        printf("   %d",curr->data);
+        inOrder(curr->rptr);
+    }
+}
+
+void preOrder(struct tree *root){
+    struct tree *curr = root;
+    if(curr != NULL){
+        printf("   %d",curr->data);
+        preOrder(curr->lptr);
+        preOrder(curr->rptr);
+    }
+}
+
+void postOrder(struct tree *root){
+    struct tree *curr = root;
+    if(curr != NULL){
+        postOrder(curr->lptr);
+        
+        postOrder(curr->rptr);
+        printf("   %d",curr->data);
+    }
+}
+
+void main(){
+    struct tree *root=NULL;
+    int choice, element;
+    
+    while(1){
+        printf("\nEnter 1 for insert : \n" );
+        printf("Enter 2 for Inorder Traverse : \n");
+        printf("Enter 3 for PostOrder Traverse : \n");
+        printf("Enter 4 for PreOrder Traverse : \n");
+        printf("Enter 5 for Exit\n");
+        printf("Enter your choice : ");
+        scanf("%d",&choice);
+        switch(choice){
+            case 1:
+            printf("Enter Element : ");
+            scanf("%d",&element);
+            insert(&root,element);
+            break;
+            
+            case 2:
+            printf("Inorder Traverse : ");
+            inOrder(root);
+            break;
+            
+            case 3:
+            printf("Post order Traverse : ");
+            postOrder(root);
+            break;
+            
+            case 4:
+            printf("Pre order Traverse : ");
+            preOrder(root);
+            break;
+            
+        }
+        
+    }
+    
+}
